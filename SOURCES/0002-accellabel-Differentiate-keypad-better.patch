@@ -1,0 +1,28 @@
+From bbf893ba560462ec60255badea9098c759598dc7 Mon Sep 17 00:00:00 2001
+From: Matthias Clasen <mclasen@redhat.com>
+Date: Wed, 2 Jul 2025 10:06:38 -0400
+Subject: [PATCH 2/3] accellabel: Differentiate keypad better
+
+Arrange for all keypad keysyms to get a "KP" prefix, including +-*/.
+
+Part-of: <https://gitlab.gnome.org/GNOME/gtk/-/merge_requests/8743>
+---
+ gtk/gtkaccellabel.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/gtk/gtkaccellabel.c b/gtk/gtkaccellabel.c
+index 75b27a8726..2f6e901392 100644
+--- a/gtk/gtkaccellabel.c
++++ b/gtk/gtkaccellabel.c
+@@ -884,7 +884,7 @@ _gtk_accel_label_class_get_accelerator_label (GtkAccelLabelClass *klass,
+         g_string_append (gstring, klass->mod_separator);
+ 
+       if (accelerator_key >= GDK_KEY_KP_Space &&
+-          accelerator_key <= GDK_KEY_KP_Equal)
++          accelerator_key <= GDK_KEY_KP_9)
+         {
+           /* Translators: "KP" means "numeric key pad". This string will
+            * be used in accelerators such as "Ctrl+Shift+KP 1" in menus,
+-- 
+2.50.0
+

@@ -1,0 +1,41 @@
+From 12a00f024c16a4540d5f457389fada2a4886d884 Mon Sep 17 00:00:00 2001
+From: Matthias Clasen <mclasen@redhat.com>
+Date: Tue, 25 May 2021 16:07:58 -0400
+Subject: [PATCH] entry: Only offer Emoji if requested
+
+Only offer the "Insert Emoji" context menu when input
+hints explicitly suggest supporting Emoji.
+---
+ gtk/gtkentry.c    | 2 +-
+ gtk/gtktextview.c | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/gtk/gtkentry.c b/gtk/gtkentry.c
+index a01684101f..1f5a790ccc 100644
+--- a/gtk/gtkentry.c
++++ b/gtk/gtkentry.c
+@@ -9591,7 +9591,7 @@ popup_targets_received (GtkClipboard     *clipboard,
+       gtk_menu_shell_append (GTK_MENU_SHELL (menu), menuitem);
+ 
+       if (info_entry_priv->show_emoji_icon ||
+-          (gtk_entry_get_input_hints (entry) & GTK_INPUT_HINT_NO_EMOJI) == 0)
++          (gtk_entry_get_input_hints (entry) & GTK_INPUT_HINT_EMOJI) != 0)
+         {
+           menuitem = gtk_menu_item_new_with_mnemonic (_("Insert _Emoji"));
+           gtk_widget_set_sensitive (menuitem,
+diff --git a/gtk/gtktextview.c b/gtk/gtktextview.c
+index e0b1e20e87..eb53843fa6 100644
+--- a/gtk/gtktextview.c
++++ b/gtk/gtktextview.c
+@@ -9521,7 +9521,7 @@ popup_targets_received (GtkClipboard     *clipboard,
+       gtk_widget_show (menuitem);
+       gtk_menu_shell_append (GTK_MENU_SHELL (priv->popup_menu), menuitem);
+ 
+-      if ((gtk_text_view_get_input_hints (text_view) & GTK_INPUT_HINT_NO_EMOJI) == 0)
++      if ((gtk_text_view_get_input_hints (text_view) & GTK_INPUT_HINT_EMOJI) != 0)
+         {
+           menuitem = gtk_menu_item_new_with_mnemonic (_("Insert _Emoji"));
+           gtk_widget_set_sensitive (menuitem, can_insert);
+-- 
+2.31.1
+

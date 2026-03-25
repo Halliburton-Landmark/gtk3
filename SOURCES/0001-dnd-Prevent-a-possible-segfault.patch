@@ -1,0 +1,37 @@
+From 889057a38627acb711ae56852d779925e770d8a0 Mon Sep 17 00:00:00 2001
+From: Matthias Clasen <mclasen@redhat.com>
+Date: Wed, 28 Feb 2024 13:10:27 -0500
+Subject: [PATCH] dnd: Prevent a possible segfault
+
+It is at least theoretically possible that gtk_entry_get_pixel_ranges
+will return no ranges, and we should handle that without an
+out-of-bounds access or segfault.
+---
+ gtk/gtkentry.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/gtk/gtkentry.c b/gtk/gtkentry.c
+index 4078855c93..a71578218c 100644
+--- a/gtk/gtkentry.c
++++ b/gtk/gtkentry.c
+@@ -4724,7 +4724,7 @@ gtk_entry_drag_gesture_update (GtkGestureDrag *gesture,
+           button = gtk_gesture_single_get_current_button (GTK_GESTURE_SINGLE (gesture));
+           gtk_drag_begin_with_coordinates (widget, target_list, actions,
+                                            button, (GdkEvent*) event,
+-                                           priv->drag_start_x + ranges[0],
++                                           priv->drag_start_x + (n_ranges > 0 ? ranges[0] : 0),
+                                            priv->drag_start_y);
+           g_free (ranges);
+ 
+@@ -9931,7 +9931,7 @@ gtk_entry_drag_begin (GtkWidget      *widget,
+       gtk_entry_get_pixel_ranges (entry, &ranges, &n_ranges);
+       cairo_surface_get_device_scale (surface, &sx, &sy);
+       cairo_surface_set_device_offset (surface,
+-                                       -(priv->drag_start_x - ranges[0]) * sx,
++                                       -(priv->drag_start_x - (n_ranges > 0 ? ranges[0] : 0)) * sx,
+                                        -(priv->drag_start_y) * sy);
+       g_free (ranges);
+ 
+-- 
+2.49.0
+

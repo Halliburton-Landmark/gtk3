@@ -1,0 +1,27 @@
+From cc977be580b9a7c2683810fe36fe485ee8583ec0 Mon Sep 17 00:00:00 2001
+From: Matthias Clasen <mclasen@redhat.com>
+Date: Fri, 11 Feb 2022 18:39:55 -0500
+Subject: [PATCH] Fix a leak of cell accessibles
+
+gtk_container_cell_accessible_add_child is transfer none,
+so we need to drop the reference we hold, otherwise it
+leaks.
+---
+ gtk/a11y/gtktreeviewaccessible.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/gtk/a11y/gtktreeviewaccessible.c b/gtk/a11y/gtktreeviewaccessible.c
+index c1a2097a1e..c2b7e8add0 100644
+--- a/gtk/a11y/gtktreeviewaccessible.c
++++ b/gtk/a11y/gtktreeviewaccessible.c
+@@ -413,6 +413,7 @@ create_cell_accessible (GtkTreeView           *treeview,
+         {
+           cell = create_cell_accessible_for_renderer (l->data, GTK_WIDGET (treeview), ATK_OBJECT (container));
+           gtk_container_cell_accessible_add_child (container, cell);
++          g_object_unref (cell);
+         }
+ 
+       cell = GTK_CELL_ACCESSIBLE (container);
+-- 
+GitLab
+
