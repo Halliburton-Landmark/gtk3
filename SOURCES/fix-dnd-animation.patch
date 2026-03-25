@@ -1,0 +1,16 @@
+ gdk/x11/gdkdnd-x11.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/gdk/x11/gdkdnd-x11.c b/gdk/x11/gdkdnd-x11.c
+index 113d0a891c..7b600e712f 100644
+--- a/gdk/x11/gdkdnd-x11.c
++++ b/gdk/x11/gdkdnd-x11.c
+@@ -289,7 +289,7 @@ gdk_x11_drag_context_finalize (GObject *object)
+ 
+   contexts = g_list_remove (contexts, context);
+ 
+-  drag_window = context->drag_window;
++  drag_window = x11_context->drag_window;
+ 
+   G_OBJECT_CLASS (gdk_x11_drag_context_parent_class)->finalize (object);
+ 

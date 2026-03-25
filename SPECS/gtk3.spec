@@ -47,6 +47,9 @@ Patch7: remove-size-allocation-critical.patch
 Patch8: 0001-Differentiate-keypad-keysyms-in-accelerators.patch
 Patch9: 0002-accellabel-Differentiate-keypad-better.patch
 Patch10: 0003-shortcutwindow-Differentiate-keypad-better.patch
+# https://bugs.eclipse.org/bugs/show_bug.cgi?id=551303
+Patch100: fix-dnd-crash.patch 
+Patch101: fix-dnd-animation.patch
 
 BuildRequires: pkgconfig(atk) >= %{atk_version}
 BuildRequires: pkgconfig(atk-bridge-2.0)

@@ -1,0 +1,21 @@
+ gtk/gtkdnd.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
+
+diff --git a/gtk/gtkdnd.c b/gtk/gtkdnd.c
+index 96edea65f8..ca8ccdc2f2 100644
+--- a/gtk/gtkdnd.c
++++ b/gtk/gtkdnd.c
+@@ -1353,7 +1353,12 @@ gtk_drag_proxy_begin (GtkWidget       *widget,
+                     "selection-get",
+                     G_CALLBACK (gtk_drag_selection_get),
+                     source_info);
+-  
++ 
++   g_signal_connect (context,
++                    "dnd-finished",
++                    G_CALLBACK (gtk_drag_context_dnd_finished_cb),
++                    source_info);
++
+   dest_info->proxy_source = source_info;
+ }
+ 
