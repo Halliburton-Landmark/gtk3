@@ -1,0 +1,8 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: DndCrashIssue
+Bundle-SymbolicName: DndCrashIssue
+Bundle-Version: 1.0.0.qualifier
+Automatic-Module-Name: EclipseBug
+Bundle-RequiredExecutionEnvironment: JavaSE-11
+Require-Bundle: org.eclipse.swt;bundle-version="3.110.0"
